@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-initdb-config
+data:
+  schema.sql: |
+    CREATE DATABASE IF NOT EXISTS portfolio;
+    USE portfolio;
+
+    CREATE TABLE IF NOT EXISTS profile (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        name VARCHAR(255) NOT NULL,
+        title VARCHAR(255) NOT NULL,
+        intro TEXT,
+        about TEXT,
+        resume_url VARCHAR(512)
+    );
+
+    CREATE TABLE IF NOT EXISTS skills (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        name VARCHAR(100) NOT NULL,
+        category VARCHAR(100) NOT NULL,
+        proficiency INT
+    );
+
+    CREATE TABLE IF NOT EXISTS projects (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        title VARCHAR(255) NOT NULL,
+        description TEXT,
+        link VARCHAR(512),
+        image_url VARCHAR(512),
+        display_order INT DEFAULT 0
+    );
+
+    CREATE TABLE IF NOT EXISTS experience (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        role VARCHAR(255) NOT NULL,
+        company VARCHAR(255) NOT NULL,
+        start_date VARCHAR(50),
+        end_date VARCHAR(50),
+        description TEXT,
+        display_order INT DEFAULT 0
+    );
+
+    CREATE TABLE IF NOT EXISTS contact_messages (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        name VARCHAR(255) NOT NULL,
+        email VARCHAR(255) NOT NULL,
+        message TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+
+    INSERT INTO profile (name, title, intro, about, resume_url) 
+    VALUES ('John Doe', 'Senior DevOps Engineer', 'Automating everything from commit to cluster.', 'Passionate about infrastructure as code, continuous delivery, and scalable systems.', 'https://example.com/resume.pdf');
+
+    INSERT INTO skills (name, category, proficiency) VALUES 
+    ('Docker', 'Containers', 90), ('Kubernetes', 'Orchestration', 85), ('AWS', 'Cloud', 90), ('Linux', 'OS', 95), ('Terraform', 'IaC', 80);
+
+    INSERT INTO projects (title, description, link, image_url, display_order) VALUES 
+    ('K8s GitOps Cluster', 'Automated K8s cluster bootstrapping.', 'https://github.com', 'https://picsum.photos/seed/k8s/600/400', 1);
