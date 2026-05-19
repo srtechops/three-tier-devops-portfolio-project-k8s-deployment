@@ -12,6 +12,9 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:17-jre-alpine
 WORKDIR /app
 
+# Patch OS-level vulnerabilities (e.g., libpng CVE-2026-40930)
+RUN apk update && apk upgrade --no-cache
+
 # Create a non-root user for security hardening
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
